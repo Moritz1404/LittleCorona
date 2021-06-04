@@ -4,7 +4,7 @@ import sys
 
 def cohs(param):
     LIM_DIGITS = 5
-    ags = '05370'
+    ags = '05370' #Allgemeiner Gemeinde Schlüssel
 
 
     # Get Deutschland
@@ -44,9 +44,7 @@ def cohs(param):
 def formatDate(date):
     year = date[0:10]
     time = date[12:16]
-    
     newDate = year + ' ' + time
-
     return newDate
 
 
