@@ -10,6 +10,9 @@ then
 elif [[ "$1" = "h" ]]
 then
     python3 main.py h
+elif [[ "$1" = "a" ]]
+then
+    python3 main.py a
 else
     python3 main.py
 fi
