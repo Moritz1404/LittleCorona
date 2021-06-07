@@ -52,6 +52,19 @@ def cohs(param):
         print(str(heinsberg_data['data'][ags_heinsberg]['weekIncidence']) [:LIM_DIGITS])
         print('Updated: ' + heinsberg_date + '\n') 
 
+    incidence_history('https://api.corona-zahlen.org/districts/05334/history/incidence/7', '05334')    
+
+
+def incidence_history(link, ags):
+    history = requests.get(link)
+    history_data = history.json()
+    file = open('values.dat', 'w')
+
+    for i in history_data['data'][ags]['history']:
+        file.write(str(i['date'][:10]) + ' ' + str(i['weekIncidence']) + '\n')
+
+    file.close()    
+
 
 def formatDate(date):
     year = date[0:10]

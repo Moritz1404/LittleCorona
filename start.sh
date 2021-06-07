@@ -1,6 +1,15 @@
 #!/bin/bash
 echo "Little Corona"
 
+var=`termgraph --version`
+var_new=${var% *}
+
+if [[ "$var_new" != "termgraph" ]]
+then
+    echo "Installing packages"
+    pip3 install termgraph
+fi
+
 if [[ "$1" = "d" ]]
 then
     python3 main.py d
@@ -16,3 +25,7 @@ then
 else
     python3 main.py
 fi
+
+echo "Aachen"
+echo "7 Day Incidence"
+termgraph values.dat --custom-tick "🦠" --width 20
