@@ -32,36 +32,50 @@ def cohs(param):
         # Print Deutschland
         print('Deutschland:')
         print(str(deutschland_data['weekIncidence']) [:LIM_DIGITS])
-        print('Updated: ' + deutschland_date + '\n')
+        print('Last check: ' + deutschland_date + '\n')
 
     if param == 'n' or param == '0':
         # Print NRW
         print(nrw_data['data']['NW']['name'] + ':')
         print(str(nrw_data['data']['NW']['weekIncidence']) [:LIM_DIGITS]) 
-        print('Updated: ' + nrw_date + '\n')
+        print('Last check: ' + nrw_date + '\n')
 
     if param == 'a' or param == '0':
-        # Print Heinsberg
+        # Print Aachen
         print(aachen_data['data'][ags_aachen]['name'] + ':')
         print(str(aachen_data['data'][ags_aachen]['weekIncidence']) [:LIM_DIGITS])
-        print('Updated: ' + aachen_date + '\n') 
+        print('Last check: ' + aachen_date + '\n')  
 
     if param == 'h' or param == '0':
         # Print Heinsberg
         print(heinsberg_data['data'][ags_heinsberg]['name'] + ':')
         print(str(heinsberg_data['data'][ags_heinsberg]['weekIncidence']) [:LIM_DIGITS])
-        print('Updated: ' + heinsberg_date + '\n') 
+        print('Last check: ' + heinsberg_date + '\n') 
 
-    incidence_history('https://api.corona-zahlen.org/districts/05334/history/incidence/7', '05334')    
+    incidence_history(ags_aachen, ags_heinsberg)
 
 
-def incidence_history(link, ags):
-    history = requests.get(link)
-    history_data = history.json()
-    file = open('values.dat', 'w')
+def incidence_history(ags1, ags2):
+    link1 = 'https://api.corona-zahlen.org/districts/' + ags1 + '/history/incidence/7'
+    link2 = 'https://api.corona-zahlen.org/districts/' + ags2 + '/history/incidence/7'
+    history1 = requests.get(link1)
+    history2 = requests.get(link2)
+    history_data1 = history1.json()
+    history_data2 = history2.json()
 
-    for i in history_data['data'][ags]['history']:
-        file.write(str(i['date'][:10]) + ' ' + str(i['weekIncidence']) + '\n')
+    values1 = []
+    values2 = []
+
+    file = open('./values.dat', 'w')
+
+    for i in history_data1['data'][ags1]['history']:
+       values1.append(str(i['date'][:10]) + ' ' + str(i['weekIncidence']) + ' ')
+
+    for i in history_data2['data'][ags2]['history']:
+        values2.append(str(i['weekIncidence']))
+
+    for i in range (0,7):
+        file.write(str(values1[i]) + str(values2[i]) + '\n')
 
     file.close()    
 
