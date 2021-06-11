@@ -1,6 +1,7 @@
 import requests
 import json
 import sys
+from datetime import date
 
 def cohs(param):
     LIM_DIGITS = 5
@@ -52,9 +53,14 @@ def cohs(param):
         print(str(heinsberg_data['data'][ags_heinsberg]['weekIncidence']) [:LIM_DIGITS])
         print('Last check: ' + heinsberg_date + '\n') 
 
+    print('Days since first infection in Germany:')
+    print(days_with_corona())
+
+    
     incidence_history(ags_aachen, ags_heinsberg)
+    
 
-
+#Safe values to file
 def incidence_history(ags1, ags2):
     link1 = 'https://api.corona-zahlen.org/districts/' + ags1 + '/history/incidence/7'
     link2 = 'https://api.corona-zahlen.org/districts/' + ags2 + '/history/incidence/7'
@@ -85,6 +91,12 @@ def formatDate(date):
     time = date[12:16]
     newDate = year + ' ' + time
     return newDate
+
+#Count days since first infection in Germany
+def days_with_corona():
+    start_date = date(2020, 1, 27)
+    today_date = date.today()
+    return str((today_date - start_date).days) + ' Days\n' 
 
 
 if __name__=="__main__":
